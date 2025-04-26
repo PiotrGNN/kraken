@@ -1,0 +1,44 @@
+{
+    "symbol": "BTCUSDT",
+    "timeframe": "1h",
+    "primary_exchange": "bybit",
+    "exchanges": [
+        {
+            "name": "bybit",
+            "api_key": "YOUR_BYBIT_API_KEY",
+            "api_secret": "YOUR_BYBIT_API_SECRET",
+            "testnet": true
+        },
+        {
+            "name": "okx",
+            "api_key": "YOUR_OKX_API_KEY",
+            "api_secret": "YOUR_OKX_API_SECRET",
+            "passphrase": "YOUR_OKX_PASSPHRASE",
+            "testnet": true
+        },
+        {
+            "name": "binance",
+            "api_key": "YOUR_BINANCE_API_KEY",
+            "api_secret": "YOUR_BINANCE_API_SECRET",
+            "testnet": true
+        }
+    ],
+    "strategy": {
+        "name": "trend_rsi",
+        "symbol": "BTCUSDT",
+        "timeframe": "1h",
+        "equity": 10000.0,
+        "risk_pct": 0.01
+    },
+    "risk": {
+        "risk_pct": 0.01,
+        "atr_multiplier": 1.5,
+        "trailing_breakeven_atr": 1.0,
+        "trailing_step_atr": 0.5
+    },
+    "monitoring": {
+        "enabled": true,
+        "log_level": "INFO",
+        "metrics_port": 8000
+    }
+}

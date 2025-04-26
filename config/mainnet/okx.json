@@ -1,0 +1,5 @@
+{
+    "api_key": "YOUR_OKX_MAINNET_API_KEY",
+    "api_secret": "YOUR_OKX_MAINNET_API_SECRET",
+    "passphrase": "YOUR_OKX_MAINNET_PASSPHRASE"
+}

@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  trading-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: deepagent-kraken
+    restart: unless-stopped
+    volumes:
+      - ./config:/app/config
+      - ./logs:/app/logs
+    environment:
+      - TZ=UTC
+      - DEEPAGENT_ENV=testnet
+      - DEEPAGENT_AUTO_SWITCH_ENABLED=true
+      - DEEPAGENT_TESTNET_DURATION_HOURS=48
+      - DEEPAGENT_MIN_TRADES_FOR_SWITCH=10
+      - DEEPAGENT_MAX_DRAWDOWN_PCT_FOR_SWITCH=4.0
+    command: python main.py --config config/config.json --interval 60
+    
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/env_switch.json
+
+volumes:
+  prometheus_data:
+  grafana_data:

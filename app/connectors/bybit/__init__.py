@@ -1,0 +1,3 @@
+"""
+Bybit exchange connector module.
+"""
